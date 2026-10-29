@@ -1,0 +1,12 @@
+ignoredBuiltDependencies:
+  - esbuild
+
+onlyBuiltDependencies:
+  - "@parcel/watcher"
+
+allowBuilds:
+  "@parcel/watcher": true
+  esbuild: false
+
+overrides:
+  "@vitejs/plugin-react": 4.7.0
