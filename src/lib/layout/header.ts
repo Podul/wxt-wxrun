@@ -1,6 +1,8 @@
+import { mountStudy, unmountStudy } from "@/lib/study/panel"
 import { activeNav, BASE, NAV, pageKey, routePath } from "./routes"
 
 const HEADER_ID = "wxrun-header"
+const PAPER_PAGE = "paper-paper_info"
 const SEARCH_PATH = "pages/search/search"
 
 type State = {
@@ -128,6 +130,10 @@ function update(doc: Document, header: HTMLElement) {
   const pageTitle =
     doc.querySelector(".uni-page-head__title")?.textContent?.trim() ?? ""
   setText(header.querySelector(".wxrun-crumb-title")!, pageTitle)
+
+  const onPaper = pageKey(pathname, hash) === PAPER_PAGE
+  if (onPaper) mountStudy(doc)
+  else unmountStudy(doc)
 }
 
 export function mountHeader(doc: Document) {
@@ -175,6 +181,7 @@ export function unmountHeader(doc: Document) {
   doc.defaultView?.removeEventListener("popstate", state.onPopState)
   doc.removeEventListener("keydown", state.onKeyDown)
   state.header.remove()
+  unmountStudy(doc)
   doc.documentElement.removeAttribute("data-wxrun-page")
   doc.documentElement.removeAttribute("data-wxrun-sub")
 }
