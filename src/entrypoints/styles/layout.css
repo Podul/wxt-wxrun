@@ -373,11 +373,43 @@ html[data-wxrun-layout="web"] .cat_cailiao_content_md,
 html[data-wxrun-layout="web"] .cat_cailiao_content_xl,
 html[data-wxrun-layout="web"] .cat_cailiao_content_xs,
 html[data-wxrun-layout="web"] .cat_answer_content {
-  max-width: 860px;
+  max-width: 960px;
   margin-left: auto;
   margin-right: auto;
   font-size: 16px;
   line-height: 1.8;
+}
+
+/* 试卷详情：操作按钮 + 答案折叠列表 */
+html[data-wxrun-layout="web"] .panel-btn-new {
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 6px 14px !important;
+  transition:
+    filter 0.15s,
+    transform 0.15s;
+}
+
+html[data-wxrun-layout="web"] .panel-btn-new:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+html[data-wxrun-layout="web"] .u-collapse-head {
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.15s;
+}
+
+html[data-wxrun-layout="web"] .u-collapse-head:hover {
+  background-color: rgba(47, 128, 237, 0.06);
+}
+
+html[data-wxrun-layout="web"] .paper_info .u-tab {
+  position: sticky;
+  top: var(--wxrun-top);
+  z-index: 5;
+  background: var(--wxrun-bg, #fff);
 }
 
 @media (max-width: 900px) {
