@@ -14,6 +14,20 @@
 * 不得擅自执行不可逆、高风险或超出授权范围的操作。
 * 不得覆盖用户已有的修改，不得伪造执行或验证结果。
 
+## 1.1 登录凭证 auth.json
+
+`auth.json` 位于项目根目录，已被 `.gitignore` 忽略，内含登录态敏感信息。
+
+* **严禁读取：** 不得用任何方式查看其内容（Read、cat、grep、head 等），也不得打印、复制、记录到日志或提交到 Git。只能通过文件路径把它交给脚本或工具使用。
+* **生成方式：** 由用户在已登录的目标页面浏览器控制台执行下面的代码，把剪贴板内容保存为根目录的 `auth.json`。Agent 不负责生成；文件缺失或登录态过期时，提示用户重新生成。
+
+  ```js
+  copy(JSON.stringify({ cookie: document.cookie, localStorage: { ...localStorage } }))
+  ```
+
+* **文件结构：** `{ "cookie": "<document.cookie 字符串>", "localStorage": { "<key>": "<value>" } }`。
+* **使用方式：** 需要登录态做浏览器自动化时（须先获得用户授权），由脚本在运行时读取 `auth.json`，在目标页面加载前把 `cookie` 写入 cookie、把 `localStorage` 各项写入 localStorage，再刷新页面。读取只发生在脚本内部，脚本不得输出其内容。
+
 ## 2. 编码前先思考
 
 * 理解需求、检查相关代码，并明确成功标准。
