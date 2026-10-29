@@ -1,0 +1,198 @@
+/* 网站布局：把 uni-app 移动端外观改成桌面网站样式。
+   仅在 html[data-wxrun-layout="web"] 下生效，颜色尽量继承以便与主题叠加。 */
+
+/* ---- 外壳（www.wxrun.com） ---- */
+html[data-wxrun-layout="web"] .container {
+  width: 100% !important;
+  max-width: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+html[data-wxrun-layout="web"] .site-index iframe {
+  display: block;
+  width: 100%;
+  height: calc(100vh - 40px);
+}
+
+html[data-wxrun-layout="web"] .site-index > p.pull-left {
+  float: none !important;
+  padding: 0 !important;
+  margin: 0;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+}
+
+/* ---- 页头与导航（cat.wxrun.com/mobile） ---- */
+html[data-wxrun-layout="web"] uni-page-head .uni-page-head {
+  height: 56px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: none;
+}
+
+html[data-wxrun-layout="web"] .uni-page-head-hd,
+html[data-wxrun-layout="web"] .uni-page-head__title {
+  font-weight: 700;
+}
+
+html[data-wxrun-layout="web"] .uni-tabbar-bottom .uni-tabbar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: auto;
+  left: auto;
+  width: auto;
+  height: 56px;
+  z-index: 999;
+  background: transparent !important;
+}
+
+html[data-wxrun-layout="web"] .uni-tabbar-border {
+  display: none;
+}
+
+html[data-wxrun-layout="web"] .uni-tabbar__item {
+  flex: none;
+  padding: 0 20px;
+}
+
+html[data-wxrun-layout="web"] .uni-tabbar__bd {
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 56px !important;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+}
+
+/* 网站导航只保留文字，去掉 app 风格的图标 */
+html[data-wxrun-layout="web"] .uni-tabbar__icon {
+  display: none !important;
+}
+
+html[data-wxrun-layout="web"] .uni-tabbar__label {
+  margin: 0 !important;
+  font-size: 15px !important;
+  font-weight: 500;
+}
+
+html[data-wxrun-layout="web"] .uni-tabbar__item:hover .uni-tabbar__bd {
+  background-color: rgba(47, 128, 237, 0.08);
+}
+
+html[data-wxrun-layout="web"]
+  .uni-tabbar__bd:has(.uni-tabbar__label[style*="47, 128, 237"]) {
+  border-bottom-color: #2f80ed;
+}
+
+/* 顶部导航占位，取代底部 tabbar 占位 */
+html[data-wxrun-layout="web"] {
+  --window-bottom: 0px !important;
+  background-color: #f5f6f8;
+}
+
+html[data-wxrun-layout="web"] .uni-placeholder {
+  display: none;
+}
+
+html[data-wxrun-layout="web"] .uni-app--showtabbar uni-page-wrapper {
+  box-sizing: border-box;
+  height: 100% !important;
+  padding-top: 56px;
+}
+
+/* ---- 内容容器 ---- */
+html[data-wxrun-layout="web"] uni-page-body {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+html[data-wxrun-layout="web"] uni-page-wrapper {
+  background-color: #f5f6f8;
+}
+
+html[data-wxrun-layout="web"] .bg-white.rounded-lg,
+html[data-wxrun-layout="web"] .mycard,
+html[data-wxrun-layout="web"] .u-card {
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  transition:
+    transform 0.15s,
+    box-shadow 0.15s;
+  cursor: pointer;
+}
+
+html[data-wxrun-layout="web"] .bg-white.rounded-lg:hover,
+html[data-wxrun-layout="web"] .mycard:hover,
+html[data-wxrun-layout="web"] .u-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* ---- 首页 / 行测 / 列表：多列卡片 ---- */
+html[data-wxrun-layout="web"] .index .grid.grid-rows-auto {
+  gap: 16px;
+}
+
+html[data-wxrun-layout="web"] .index .card-title {
+  font-size: 1.125rem;
+  margin: 8px 0 12px;
+}
+
+@media (min-width: 768px) {
+  html[data-wxrun-layout="web"] .index .grid.grid-rows-auto {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1100px) {
+  html[data-wxrun-layout="web"] .index .grid.grid-rows-auto {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* 省份列表、试卷列表：宽屏下排成多列 */
+html[data-wxrun-layout="web"] .u-cell-item-box,
+html[data-wxrun-layout="web"] uni-page-body:has(> .u-card) {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 12px;
+}
+
+html[data-wxrun-layout="web"] .u-cell-item-box > .u-cell {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+html[data-wxrun-layout="web"] .u-cell-item-box > .u-cell:hover {
+  background-color: rgba(47, 128, 237, 0.06) !important;
+}
+
+html[data-wxrun-layout="web"] uni-page-body > .u-card {
+  margin: 0 !important;
+}
+
+/* ---- 试卷详情：宽屏阅读排版 ---- */
+html[data-wxrun-layout="web"] .paper_info,
+html[data-wxrun-layout="web"] .cat_cailiao_content_md,
+html[data-wxrun-layout="web"] .cat_cailiao_content_xl,
+html[data-wxrun-layout="web"] .cat_cailiao_content_xs,
+html[data-wxrun-layout="web"] .cat_answer_content {
+  max-width: 860px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+html[data-wxrun-layout="web"] .u-tabs {
+  position: sticky;
+  top: 56px;
+  z-index: 10;
+}

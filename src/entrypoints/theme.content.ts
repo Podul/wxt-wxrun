@@ -1,4 +1,5 @@
-import { applyTheme, themeItem } from "@/lib/theme"
+import { applyLayout, applyTheme, layoutItem, themeItem } from "@/lib/theme"
+import "./styles/layout.css"
 import "./styles/theme.css"
 
 export default defineContentScript({
@@ -8,7 +9,12 @@ export default defineContentScript({
   async main(ctx) {
     const root = document.documentElement
     applyTheme(root, await themeItem.getValue())
-    const unwatch = themeItem.watch((theme) => applyTheme(root, theme))
-    ctx.onInvalidated(unwatch)
+    applyLayout(root, await layoutItem.getValue())
+    const unwatchTheme = themeItem.watch((theme) => applyTheme(root, theme))
+    const unwatchLayout = layoutItem.watch((on) => applyLayout(root, on))
+    ctx.onInvalidated(() => {
+      unwatchTheme()
+      unwatchLayout()
+    })
   }
 })

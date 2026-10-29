@@ -1,5 +1,21 @@
 import { describe, expect, it } from "vitest"
-import { applyTheme, themeItem } from "./theme"
+import { applyLayout, applyTheme, layoutItem, themeItem } from "./theme"
+
+describe("applyLayout", () => {
+  it("sets data-wxrun-layout when enabled and removes it when disabled", () => {
+    const root = document.createElement("html")
+    applyLayout(root, true)
+    expect(root.getAttribute("data-wxrun-layout")).toBe("web")
+    applyLayout(root, false)
+    expect(root.hasAttribute("data-wxrun-layout")).toBe(false)
+  })
+})
+
+describe("layoutItem", () => {
+  it("falls back to enabled", async () => {
+    expect(await layoutItem.getValue()).toBe(true)
+  })
+})
 
 describe("applyTheme", () => {
   it("sets data-wxrun-theme for a theme and removes it for original", () => {
