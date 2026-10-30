@@ -1,6 +1,6 @@
 # wxrun 主题
 
-为猫学网（wxrun.com）提供可切换主题（原始、暗色、护眼绿、羊皮纸）、桌面端网页布局和论文页双栏答题面板的浏览器扩展。基于 [WXT](https://wxt.dev) + React 构建，使用 Manifest V3，支持 Chrome 与 Edge（Chromium 内核）。
+为猫学网（wxrun.com）提供桌面端网页布局和论文页双栏答题面板的浏览器扩展。基于 [WXT](https://wxt.dev) + React 构建，使用 Manifest V3，支持 Chrome 与 Edge（Chromium 内核）。
 
 ## 环境要求
 
@@ -44,7 +44,7 @@ pnpm package
 
 ## 使用
 
-安装后打开 [wxrun.com](https://wxrun.com)，点击工具栏中的扩展图标，在弹窗里切换主题或开关网页布局，设置会自动保存。
+安装后打开 [wxrun.com](https://wxrun.com)，扩展会自动应用网页布局，无需任何设置。
 
 ## 开发
 

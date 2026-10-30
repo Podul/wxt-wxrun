@@ -1,5 +1,5 @@
 /* 网站布局：把 uni-app 移动端外观改成桌面网站样式。
-   仅在 html[data-wxrun-layout="web"] 下生效，颜色尽量继承以便与主题叠加。
+   仅在 html[data-wxrun-layout="web"] 下生效。
    顶部导航由内容脚本注入（#wxrun-header），页面级样式靠 html[data-wxrun-page]。 */
 
 html[data-wxrun-layout="web"] {
