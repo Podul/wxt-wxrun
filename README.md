@@ -42,6 +42,15 @@ pnpm package
 
 会在 `.output/` 下生成 zip 包。zip 主要用于上架应用商店；本地使用请解压后按上面的步骤加载，Chrome 和 Edge 都不能直接拖入 zip 安装。
 
+## 发布 Release
+
+推送形如 `vX.Y.Z` 的 tag 会触发 `.github/workflows/release.yml`：以 tag 版本号覆盖 `package.json` 版本，依次执行 lint、typecheck、测试，打包后把 `.output/*-chrome.zip` 上传到对应的 GitHub Release。
+
+```bash
+git tag v1.0.1
+git push origin v1.0.1
+```
+
 ## 使用
 
 安装后打开 [wxrun.com](https://wxrun.com)，扩展会自动应用网页布局，无需任何设置。
