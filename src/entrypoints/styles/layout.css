@@ -414,12 +414,18 @@ html[data-wxrun-layout="web"] .paper_info .u-tab {
 html[data-wxrun-layout="web"] #wxrun-study {
   position: fixed;
   inset: 101px 0 0;
-  z-index: 900;
+  z-index: 9999;
   display: flex;
   flex-direction: column;
   background: var(--wxrun-bg, #fff);
   color: var(--wxrun-fg, #1f2329);
   font-size: 15px;
+}
+
+/* 面板接管加载态，隐藏站点自带骨架屏，避免灰条露在面板上方 */
+html[data-wxrun-layout="web"]:has(#wxrun-study) .skeleton-fade,
+html[data-wxrun-layout="web"]:has(#wxrun-study) uni-view:has(> .skeleton-fade) {
+  display: none !important;
 }
 
 html[data-wxrun-layout="web"] #wxrun-study button {
@@ -459,6 +465,37 @@ html[data-wxrun-layout="web"] #wxrun-study .study-body {
   flex: 1;
   grid-template-columns: var(--study-left) 8px 1fr;
   min-height: 0;
+}
+
+html[data-wxrun-layout="web"] #wxrun-study .study-loading {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  opacity: 0.7;
+}
+
+html[data-wxrun-layout="web"] #wxrun-study .study-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(0, 0, 0, 0.12);
+  border-top-color: var(--wxrun-accent);
+  border-radius: 50%;
+  animation: wxrun-spin 0.8s linear infinite;
+}
+
+@keyframes wxrun-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-wxrun-layout="web"] #wxrun-study .study-spinner {
+    animation-duration: 2.4s;
+  }
 }
 
 html[data-wxrun-layout="web"] #wxrun-study .study-col {

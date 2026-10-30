@@ -282,7 +282,10 @@ export function mountStudy(doc: Document) {
   if (states.has(doc) || !doc.body) return
   const win = doc.defaultView!
   const shell = buildShell(doc)
-  shell.body.textContent = "加载中…"
+  const loading = h(doc, "div", "study-loading")
+  loading.setAttribute("role", "status")
+  loading.append(h(doc, "span", "study-spinner"), h(doc, "span", "", "加载中…"))
+  shell.body.append(loading)
   doc.body.append(shell.root)
 
   let timer: ReturnType<typeof setTimeout> | undefined
