@@ -688,6 +688,9 @@ html[data-wxrun-layout="web"] #wxrun-study .study-dialog {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  position: fixed;
+  inset: 0;
+  margin: auto;
   width: min(720px, 90vw);
   max-height: 80vh;
   padding: 0;
