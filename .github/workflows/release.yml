@@ -37,11 +37,13 @@ jobs:
       - run: pnpm lint
       - run: pnpm typecheck
       - run: pnpm test
-      - run: pnpm package
+      - run: pnpm package:all
 
       - name: Upload package to GitHub Release
         if: github.event_name == 'push'
         uses: softprops/action-gh-release@v2
         with:
-          files: .output/*-chrome.zip
+          files: |
+            .output/*-chrome.zip
+            .output/*-edge.zip
           generate_release_notes: true

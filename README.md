@@ -40,11 +40,11 @@ pnpm build
 pnpm package
 ```
 
-会在 `.output/` 下生成 zip 包。zip 主要用于上架应用商店；本地使用请解压后按上面的步骤加载，Chrome 和 Edge 都不能直接拖入 zip 安装。
+会在 `.output/` 下生成 Chrome zip 包；`pnpm package:edge` 生成 Edge zip 包，`pnpm package:all` 一次生成两者。zip 主要用于上架应用商店；本地使用请解压后按上面的步骤加载，Chrome 和 Edge 都不能直接拖入 zip 安装。
 
 ## 发布 Release
 
-推送形如 `vX.Y.Z` 的 tag 会触发 `.github/workflows/release.yml`：以 tag 版本号覆盖 `package.json` 版本，依次执行 lint、typecheck、测试，打包后把 `.output/*-chrome.zip` 上传到对应的 GitHub Release。
+推送形如 `vX.Y.Z` 的 tag 会触发 `.github/workflows/release.yml`：以 tag 版本号覆盖 `package.json` 版本，依次执行 lint、typecheck、测试，打包后把 `.output/*-chrome.zip` 和 `.output/*-edge.zip` 上传到对应的 GitHub Release。
 
 ```bash
 git tag v1.0.1

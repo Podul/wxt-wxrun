@@ -8,6 +8,8 @@
     "dev": "wxt",
     "build": "wxt build",
     "package": "wxt zip",
+    "package:edge": "wxt zip -b edge",
+    "package:all": "pnpm package && pnpm package:edge",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "lint": "prettier --check \"**/*.{js,jsx,ts,tsx}\""
