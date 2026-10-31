@@ -10,7 +10,7 @@ const answer = (n: number) => ({
 })
 
 const paper = {
-  info: { name: "测试试卷" },
+  info: { id: 9, name: "测试试卷", is_collect: false },
   lists: [
     {
       id: 11,
@@ -54,6 +54,30 @@ beforeEach(() => {
     "fetch",
     vi.fn((url: string) => {
       if (url.includes("paper_info")) return reply(paper)
+      if (url.includes("query_pigai_history")) {
+        return reply({
+          list: [
+            {
+              date: "2026-10-01",
+              type: "普通批改",
+              question: "题",
+              result: "<p>不错</p>"
+            }
+          ]
+        })
+      }
+      if (url.includes("get_comment_list")) {
+        return reply({
+          lists: [{ nickname: "甲", content: "好", add_time: "t" }]
+        })
+      }
+      if (
+        /add_my_answer|addCollectPaper|cancelCollectPaper|add_comment|add_ai/.test(
+          url
+        )
+      ) {
+        return reply([])
+      }
       if (url.includes("query_my_answer")) {
         return reply({ info: [{ answer: "<p>我写的</p>" }, { answer: "" }] })
       }
@@ -139,6 +163,101 @@ describe("mountStudy", () => {
       two_answer_head: "网友1",
       question_id: 11
     })
+  })
+
+  const section0 = () =>
+    document.querySelectorAll<HTMLElement>(".study-right .study-section")[0]!
+  const click = (root: ParentNode, selector: string, text: string) =>
+    [...root.querySelectorAll<HTMLElement>(selector)]
+      .find((b) => b.textContent === text)!
+      .click()
+  const requested = (part: string) =>
+    vi.mocked(fetch).mock.calls.find(([url]) => String(url).includes(part))
+
+  it("shows grading history in a dialog", async () => {
+    await mount()
+    click(section0(), ".study-btn", "批改历史")
+    await vi.waitFor(() =>
+      expect(document.querySelector(".study-dialog-body")).toHaveTextContent(
+        "不错"
+      )
+    )
+    expect(
+      JSON.parse(String(requested("query_pigai_history")![1]!.body))
+    ).toEqual({ id: 11 })
+    document.querySelector<HTMLElement>(".study-dialog-close")!.click()
+    expect(document.querySelector(".study-dialog")).toBeNull()
+  })
+
+  it("opens the compare page with the stored answers", async () => {
+    await mount()
+    click(section0(), ".study-btn", "对比")
+    expect(window.open).toHaveBeenCalledWith(
+      "/mobile/pages/paper/compare?is_vip=1",
+      "_blank"
+    )
+    expect(
+      JSON.parse(localStorage.getItem("compare_array")!).data.question_id
+    ).toBe(11)
+  })
+
+  it("saves the answer to the site", async () => {
+    await mount()
+    click(section0(), ".study-link", "保存到站点")
+    await vi.waitFor(() => expect(requested("add_my_answer")).toBeDefined())
+    expect(JSON.parse(String(requested("add_my_answer")![1]!.body))).toEqual({
+      paper_id: "9",
+      question_id: 11,
+      answer: "<p>我写的</p>"
+    })
+  })
+
+  it("posts a smart compare then opens the result page", async () => {
+    await mount()
+    click(section0(), ".study-btn", "智能对比")
+    await vi.waitFor(() =>
+      expect(window.open).toHaveBeenCalledWith(
+        "/mobile/pages/paper/ai?user_id=0",
+        "_blank"
+      )
+    )
+    expect(requested("add_ai")).toBeDefined()
+  })
+
+  it("lists comments and posts a new one", async () => {
+    await mount()
+    click(section0(), ".study-link", "评论")
+    await vi.waitFor(() =>
+      expect(document.querySelector(".study-comments")).toHaveTextContent("好")
+    )
+    const input = document.querySelector<HTMLInputElement>(
+      ".study-comment-input"
+    )!
+    input.value = "新评论"
+    click(document, ".study-dialog .study-btn", "发送")
+    await vi.waitFor(() =>
+      expect(document.querySelector(".study-comments")).toHaveTextContent(
+        "新评论"
+      )
+    )
+    expect(requested("add_comment")).toBeDefined()
+  })
+
+  it("toggles the paper collection", async () => {
+    await mount()
+    click(document, ".study-bar .study-tool", "收藏试卷")
+    await vi.waitFor(() =>
+      expect(document.querySelector(".study-bar")).toHaveTextContent("取消收藏")
+    )
+    expect(requested("addCollectPaper")).toBeDefined()
+  })
+
+  it("pins an answer to the top of the list", async () => {
+    await mount()
+    const items = section0().querySelectorAll<HTMLElement>(".study-other")
+    click(items[1]!, ".study-link", "置顶")
+    expect(section0().querySelector(".study-other")).toBe(items[1])
+    expect(items[1]!.querySelector("summary")).toHaveTextContent("📌")
   })
 
   it("asks for an answer before grading", async () => {

@@ -16,6 +16,10 @@ export const splitItem = storage.defineItem<number>("local:study-split", {
   fallback: 50
 })
 
+export const fontItem = storage.defineItem<number>("local:study-font", {
+  fallback: 15
+})
+
 const empty = (): PaperState => ({ ink: {}, drafts: {} })
 
 export async function loadState(paperId: string): Promise<PaperState> {

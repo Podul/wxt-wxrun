@@ -45,6 +45,11 @@ describe("token and text helpers", () => {
       JSON.stringify({ type: "string", data: "xyz" })
     )
     expect(readToken(localStorage)).toBe("xyz")
+    localStorage.setItem(
+      "app_token",
+      JSON.stringify({ expire: 1893456000, value: "site-token" })
+    )
+    expect(readToken(localStorage)).toBe("site-token")
     localStorage.removeItem("app_token")
     expect(readToken(localStorage)).toBe("")
   })
