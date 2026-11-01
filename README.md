@@ -2,6 +2,11 @@
 
 为猫学网（wxrun.com）提供桌面端网页布局和论文页双栏答题面板的浏览器扩展。基于 [WXT](https://wxt.dev) + React 构建，使用 Manifest V3，支持 Chrome 与 Edge（Chromium 内核）。
 
+## 安装
+
+* 从 [Chrome 应用商店](https://chromewebstore.google.com/detail/diifgnajigbppdonalalmjmjapchfcmk) 安装。
+* 从 [GitHub Releases](https://github.com/Podul/wxt-wxrun/releases) 下载 zip 包安装。
+
 ## 环境要求
 
 * Node.js 22+
